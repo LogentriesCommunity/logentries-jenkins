@@ -1,5 +1,7 @@
 package com.logentries.jenkins;
 
+import hudson.scm.SubversionSCM.DescriptorImpl.SslClientCertificateCredential;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -8,6 +10,8 @@ import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * Class to write logs to logentries asynchronously
@@ -19,7 +23,7 @@ public class LogentriesWriter {
 	private static final String LE_API = "api.logentries.com";
 	// FIXME Use ssl port
 	/** Port number for Token logging on Logentries API server. */
-	private static final int LE_PORT = 10000;
+	private static final int LE_PORT = 20000;
 	/** UTF-8 output character set. */
 	private static final Charset UTF8 = Charset.forName("UTF-8");
 	private static final int SHUTDOWN_TIMEOUT_SECONDS = 10;
@@ -40,7 +44,7 @@ public class LogentriesWriter {
 			IOException {
 		this.executor = Executors.newSingleThreadExecutor();
 		this.token = token;
-		socket = new Socket(LE_API, LE_PORT);
+		socket = SSLSocketFactory.getDefault().createSocket(LE_API, LE_PORT);
 		outputStream = socket.getOutputStream();
 	}
 
