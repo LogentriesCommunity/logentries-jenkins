@@ -1,7 +1,5 @@
 package com.logentries.jenkins;
 
-import hudson.scm.SubversionSCM.DescriptorImpl.SslClientCertificateCredential;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
