@@ -2,7 +2,6 @@ package com.logentries.jenkins;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.UnknownHostException;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -22,12 +21,17 @@ public class LogentriesBuildWrapper extends BuildWrapper {
 
 	/**
 	 * Create a new {@link LogentriesBuildWrapper}.
+	 * @param token The token for the Logentries' log
 	 */
 	@DataBoundConstructor
 	public LogentriesBuildWrapper(String token) {
 		this.token = token;
 	}
 	
+	/**
+	 * Gets the Logentries' token
+	 * @return The Logentries' token
+	 */
 	public String getToken() {
 		return token;
 	}
@@ -37,16 +41,19 @@ public class LogentriesBuildWrapper extends BuildWrapper {
 	 */
 	@Override
 	public OutputStream decorateLogger(AbstractBuild build, OutputStream logger) {
+		OutputStream decoratedOs = logger;
 		try {
-			return new LogentriesLogDecorator(logger, this.token);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogentriesWriter logentriesWriter 
+				= new AsynchronousLogentriesWriter(new LogentriesTcpTokenWriter(this.token));
+			decoratedOs = new LogentriesLogDecorator(logger, logentriesWriter);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RuntimeException e) {
+			// Programmer error. 
 			e.printStackTrace();
 		}
-		return logger;
+		// Should be the wrapped output stream if everything goes ok
+		return decoratedOs;
 	}
 	
 	/**
@@ -55,8 +62,7 @@ public class LogentriesBuildWrapper extends BuildWrapper {
 	@Override
 	public Environment setUp(AbstractBuild build, Launcher launcher,
 			BuildListener listener) throws IOException, InterruptedException {
-		return new Environment() {
-		};
+		return new Environment() { };
 	}
 
     public DescriptorImpl getDescriptor() {

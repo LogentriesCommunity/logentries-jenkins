@@ -17,12 +17,15 @@ public class LogentriesLogDecorator extends LineTransformationOutputStream {
 	 * @throws IOException 
 	 * @throws UnknownHostException 
 	 */
-	public LogentriesLogDecorator(OutputStream os, String token) 
+	public LogentriesLogDecorator(OutputStream os, LogentriesWriter leWriter) 
 			throws UnknownHostException, IOException {
 		this.wrappedOutputStream = os;
-		this.leWriter = new LogentriesWriter(token);
+		this.leWriter = leWriter;
 	}
 	
+	/**
+	 * Called when the end of a line is reached.
+	 */
 	@Override
 	protected void eol(byte[] bytes, int length) {
 		try {
@@ -36,9 +39,10 @@ public class LogentriesLogDecorator extends LineTransformationOutputStream {
 		}
 	}
 	
-	// FIXME Should we close this here?
+	// Should we close this here?
 	@Override
 	public void close() throws IOException {
+		leWriter.close();
 		super.close();
 		wrappedOutputStream.close();
 	}
