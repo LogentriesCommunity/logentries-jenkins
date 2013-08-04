@@ -3,33 +3,27 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.logentries</groupId>
-	<artifactId>logentries-jenkins</artifactId>
-	<packaging>hpi</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Logentries Forwarder</name>
-	<description>Forwards console output for a build to logentries.com</description>
-	<url>logentries.com</url>
-
 	<parent>
-		<groupId>org.jvnet.hudson.plugins</groupId>
+		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.374</version>
+		<version>1.424</version>
 	</parent>
 
-	<repositories>
-		<repository>
-			<id>repo.jenkins-ci.org</id>
-			<url>http://repo.jenkins-ci.org/public/</url>
-		</repository>
-	</repositories>
+	<artifactId>logentries</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>hpi</packaging>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>repo.jenkins-ci.org</id>
-			<url>http://repo.jenkins-ci.org/public/</url>
-		</pluginRepository>
-	</pluginRepositories>
+
+	<name>Logentries Forwarder</name>
+	<description>Forwards console output for a build to logentries.com</description>
+	<url>http://wiki.jenkins-ci.org/display/JENKINS/Logentries+Plugin</url>
+	<licenses>
+		<license>
+			<name>The MIT license</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<distributionManagement>
 		<repository>
@@ -38,23 +32,48 @@
 		</repository>
 	</distributionManagement>
 
+	<developers>
+		<developer>
+			<id>stbutler11</id>
+			<name>Stuart Butler</name>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/logentries/logentries-jenkins.git</connection>
+		<developerConnection>scm:git:git@github.com:logentries/logentries-jenkins.git</developerConnection>
+		<url>http://github.com/logentries/logentries-jenkins</url>
+	</scm>
+
+	<repositories>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
 			</plugin>
 			<plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <goals>deploy</goals>
-                </configuration>
-            </plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -71,7 +90,7 @@
 			<version>3.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>
