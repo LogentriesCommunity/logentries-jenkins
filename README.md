@@ -3,6 +3,10 @@ logentries-jenkins
 
 Jenkins plug-in for Logentries.
 
+This plug in is not officially supported or maintained by logentries.
+
+If you would be interested in maintaining this project, please contact support@logentries.com
+
 Usage
 -----
 
